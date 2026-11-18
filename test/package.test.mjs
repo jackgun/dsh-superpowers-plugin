@@ -33,7 +33,7 @@ test('manifest, ESM entry, and bundle patch are valid', async () => {
   assert.equal(plugin.name, 'dsh-superpowers');
   assert.equal(typeof plugin.apply, 'function');
   assert.equal(typeof plugin.Config, 'function');
-  assert.equal(pkg.dependencies['@deepseek-ai/schemastery'], '3.18.5');
+  assert.equal(pkg.dependencies['@deepseek-ai/schemastery'], '3.19.0');
 
   const patch = await readFile(join(root, 'cordis.patch.yml'), 'utf8');
   assert.deepEqual([...patch.matchAll(/^\s+- id:\s*(.+)$/gm)].map((match) => match[1]), ['dsh-superpowers']);
@@ -45,7 +45,7 @@ test('vendored payload matches the pinned upstream lock', async () => {
   assert.match(lock.upstream.tag, /^v\d+\.\d+\.\d+$/);
   assert.match(lock.upstream.commit, /^[0-9a-f]{40}$/);
   assert.deepEqual(lock.allowedDifferences, []);
-  assert.equal(fileCount, 85);
+  assert.equal(fileCount, 81);
 });
 
 test('npm dry-run contains every runtime, skill, reference, script, and license file', async () => {

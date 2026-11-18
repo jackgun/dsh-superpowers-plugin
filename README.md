@@ -5,12 +5,12 @@
 A lightweight native [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Cordis bundle that brings the pinned [obra/superpowers](https://github.com/obra/superpowers) skill collection to DSH.
 
 - Default target: the DSH `desktop` profile
-- Tested with DSH `0.2.1-rc.3`
-- Vendored Superpowers `v7.0.1` at commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`
+- Targets DSH `0.2.2-rc.3` and its published plugin API
+- Vendored Superpowers `v7.0.2` at commit `22f0b463e7a5e579904dd6211a520321035526f7`
 - Native lazy-loaded `ctx.skills` provider
 - Automatic `using-superpowers` bootstrap through `ctx.systemPrompt`
 - Native desktop configuration form for all four plugin options
-- DSH-specific tool mapping with bare skill names such as `skill("brainstorming")`
+- DSH-specific tool mapping with bare skill names such as `skill("brainstorming")`, updated for the `0.2.2` tool surface (`apply_patch`, named subagents and their controls, the Agent Team task board)
 - No OpenCode dependency, install hook, or build step; the only direct runtime dependency is DSH's native `@deepseek-ai/schemastery`
 
 Only the bootstrap is injected into every model request. All other skills are loaded on demand through DSH's native `skill` tool.
@@ -20,7 +20,7 @@ Only the bootstrap is injected into every model request. All other skills are lo
 Install the pinned GitHub release into the desktop profile:
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/Flaaax/dsh-superpowers-plugin.git#v0.2.0"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
 ```
 
 Fully quit and restart the DeepSeek Harness desktop application, then start a new conversation.
@@ -34,7 +34,7 @@ dsh plugin --profile desktop list --depth 0
 For local development:
 
 ```powershell
-dsh plugin --profile desktop add "E:\Projects\JavaScript\dsh-superpowers-plugin"
+dsh plugin --profile desktop add "D:\Projects\dsh-superpowers-plugin"
 ```
 
 The project is not currently published to npm. If an npm package is published in the future, pin its exact version just like the Git tag.
@@ -62,7 +62,7 @@ The model should load `systematic-debugging`.
 Install the new explicit tag, then restart the desktop app:
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/Flaaax/dsh-superpowers-plugin.git#v0.2.0"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
 ```
 
 Do not install an unpinned `main` branch if reproducible behavior matters.
@@ -122,7 +122,7 @@ The test suite covers manifest and patch validation, provider registration, ever
 The sync command requires an explicit stable tag or full commit SHA and rejects floating branches:
 
 ```powershell
-npm run sync:upstream -- --ref v7.0.1
+npm run sync:upstream -- --ref v7.0.2
 ```
 
 It stages the new payload in a temporary directory, updates the upstream license and lock, reports added/removed/changed files, runs verification and the complete test suite, and restores the previous payload if validation fails. It is never run during user installation.

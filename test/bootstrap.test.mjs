@@ -36,6 +36,10 @@ test('bootstrap strips frontmatter, wraps the skill once, and includes DSH mappi
   assert.equal(text.split('## DeepSeek Harness tool mapping').length - 1, 1);
   assert.match(text, /skill\("brainstorming"\)/);
   assert.match(text, /never `skill\("superpowers:brainstorming"\)`/);
+  assert.match(text, /apply_patch/);
+  assert.match(text, /`subagent`/);
+  assert.match(text, /send_message/);
+  assert.match(text, /team_task_create/);
   assert.match(text, /create_worktree/);
   assert.ok(text.includes(TOOL_MAPPING));
 });

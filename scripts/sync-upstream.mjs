@@ -86,6 +86,11 @@ export async function sync(ref) {
   try {
     await mkdir(checkout);
     run('git', ['init', '--quiet'], { cwd: checkout });
+    // The SHA-256 lock hashes the bytes that a clean LF checkout produces; a
+    // user-level core.autocrlf would rewrite the working tree to CRLF on
+    // Windows and pin hashes that fail verification on any other machine.
+    run('git', ['config', 'core.autocrlf', 'false'], { cwd: checkout });
+    run('git', ['config', 'core.eol', 'lf'], { cwd: checkout });
     run('git', ['remote', 'add', 'origin', REPOSITORY], { cwd: checkout });
     run('git', ['fetch', '--quiet', '--depth', '1', 'origin', ref], { cwd: checkout });
     run('git', ['checkout', '--quiet', '--detach', 'FETCH_HEAD'], { cwd: checkout });

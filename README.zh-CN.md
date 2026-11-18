@@ -5,8 +5,8 @@
 这是一个轻量的 DeepSeek Harness（DSH）原生 Cordis bundle：安装到 `desktop` profile 后，它会把固定版本的 [obra/superpowers](https://github.com/obra/superpowers) 注册到 DSH 原生技能目录，并在每个会话的 system prompt 中自动注入 `using-superpowers` bootstrap。
 
 - 默认 profile：`desktop`
-- 已验证 DSH：`0.2.1-rc.3`
-- Superpowers：`v7.0.1`，commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`
+- 目标 DSH：`0.2.2-rc.3`（已对照其发布的插件 API）
+- Superpowers：`v7.0.2`，commit `22f0b463e7a5e579904dd6211a520321035526f7`
 - 其余技能按需通过原生 `skill` 工具加载；不会把所有技能正文塞进每轮上下文
 - 桌面端可通过原生配置表单修改全部四个插件选项
 - 无 OpenCode 依赖、无 `postinstall`、无需构建；唯一直接运行时依赖是 DSH 原生的 `@deepseek-ai/schemastery`
@@ -16,13 +16,13 @@
 安装固定的 GitHub 正式版本：
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/Flaaax/dsh-superpowers-plugin.git#v0.2.0"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
 ```
 
 本地开发目录安装：
 
 ```powershell
-dsh plugin --profile desktop add "E:\Projects\JavaScript\dsh-superpowers-plugin"
+dsh plugin --profile desktop add "D:\Projects\dsh-superpowers-plugin"
 ```
 
 安装后重启 DeepSeek Harness 桌面应用。安装命令不会主动关闭正在运行的桌面应用。
@@ -67,7 +67,7 @@ bundle row 的稳定 id 是 `dsh-superpowers`。可在桌面应用的插件页�
 - `skills`：注册随包技能目录；关闭后不再提供这些技能。
 - `bootstrap`：自动注入 `using-superpowers`；设为 `false` 可只保留技能目录。
 - `toolMapping`：在 bootstrap 后附加 DSH 工具映射。
-- `order`：system prompt section 顺序。DSH `0.2.1-rc.3` 的 persona 是 `0`，工具指导从 `1000` 开始，默认 `50` 位于二者之间。
+- `order`：system prompt section 顺序。DSH `0.2.2-rc.3` 的 persona 是 `0`，工具指导从 `1000` 开始，默认 `50` 位于二者之间。
 
 如需覆盖配置，在目标 profile 自己的 `cordis.patch.yml` 中添加对应 row patch；无需改本插件或 DSH 内置文件。例如只保留技能目录：
 
@@ -84,19 +84,19 @@ bundle row 的稳定 id 是 `dsh-superpowers`。可在桌面应用的插件页�
 更新正式版本时安装新的明确 tag，再重启桌面应用：
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/Flaaax/dsh-superpowers-plugin.git#v0.2.0"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
 ```
 
 本地开发目录更新后可重新安装本地链接：
 
 ```powershell
-dsh plugin --profile desktop add "E:\Projects\JavaScript\dsh-superpowers-plugin"
+dsh plugin --profile desktop add "D:\Projects\dsh-superpowers-plugin"
 ```
 
 维护者同步上游时必须显式指定稳定 tag 或完整 commit；脚本拒绝 `main`、`dev` 等浮动分支：
 
 ```powershell
-npm run sync:upstream -- --ref v7.0.1
+npm run sync:upstream -- --ref v7.0.2
 ```
 
 同步脚本先在临时目录检出上游，更新 skills、上游许可证和 `upstream-lock.json`，再执行校验和完整测试。失败会恢复原 payload。它会报告新增、删除和变化的文件；普通安装不会运行该脚本。
