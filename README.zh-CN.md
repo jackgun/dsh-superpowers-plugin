@@ -5,7 +5,7 @@
 这是一个轻量的 DeepSeek Harness（DSH）原生 Cordis bundle：安装到 `desktop` profile 后，它会把固定版本的 [obra/superpowers](https://github.com/obra/superpowers) 注册到 DSH 原生技能目录，并在每个会话的 system prompt 中自动注入 `using-superpowers` bootstrap。
 
 - 默认 profile：`desktop`
-- 目标 DSH：`0.2.2-rc.3`（已对照其发布的插件 API）
+- 目标 DSH：`0.2.2-rc.5`；`engines.dsh` 声明 `>=0.2.2-rc.3 <0.3.0`，插件管理器接受任意 `0.2.2` 版本
 - Superpowers：`v7.0.2`，commit `22f0b463e7a5e579904dd6211a520321035526f7`
 - 其余技能按需通过原生 `skill` 工具加载；不会把所有技能正文塞进每轮上下文
 - 桌面端可通过原生配置表单修改全部四个插件选项
@@ -16,7 +16,7 @@
 安装固定的 GitHub 正式版本：
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.3"
 ```
 
 本地开发目录安装：
@@ -67,7 +67,7 @@ bundle row 的稳定 id 是 `dsh-superpowers`。可在桌面应用的插件页�
 - `skills`：注册随包技能目录；关闭后不再提供这些技能。
 - `bootstrap`：自动注入 `using-superpowers`；设为 `false` 可只保留技能目录。
 - `toolMapping`：在 bootstrap 后附加 DSH 工具映射。
-- `order`：system prompt section 顺序。DSH `0.2.2-rc.3` 的 persona 是 `0`，工具指导从 `1000` 开始，默认 `50` 位于二者之间。
+- `order`：system prompt section 顺序。DSH `0.2.2` 的 persona 是 `0`，工具指导从 `1000` 开始，默认 `50` 位于二者之间。
 
 如需覆盖配置，在目标 profile 自己的 `cordis.patch.yml` 中添加对应 row patch；无需改本插件或 DSH 内置文件。例如只保留技能目录：
 
@@ -84,7 +84,7 @@ bundle row 的稳定 id 是 `dsh-superpowers`。可在桌面应用的插件页�
 更新正式版本时安装新的明确 tag，再重启桌面应用：
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.3"
 ```
 
 本地开发目录更新后可重新安装本地链接：
@@ -92,6 +92,8 @@ dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plu
 ```powershell
 dsh plugin --profile desktop add "D:\Projects\dsh-superpowers-plugin"
 ```
+
+DSH 在安装或激活插件时会检查兼容性：先读 `engines.dsh` 范围，没有该字段时再逐个检查 `@deepseek-ai/dsh*` peer 依赖；运行中的 DSH 版本不满足要求就会拒绝安装或启动。升级 DSH 后，请安装为该版本发布的最新插件 tag；如果 DSH 比任何已发布范围都新，需要插件放宽 `engines.dsh`，或在插件管理器里为该插件与运行版本的精确组合开一次豁免。
 
 维护者同步上游时必须显式指定稳定 tag 或完整 commit；脚本拒绝 `main`、`dev` 等浮动分支：
 

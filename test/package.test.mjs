@@ -35,6 +35,18 @@ test('manifest, ESM entry, and bundle patch are valid', async () => {
   assert.equal(typeof plugin.Config, 'function');
   assert.equal(pkg.dependencies['@deepseek-ai/schemastery'], '3.19.0');
 
+  // DSH reads engines.dsh first; without it every @deepseek-ai/dsh-* peer must
+  // match the running version, so an exact prerelease pin would block every
+  // later DSH prerelease. Both must declare the same supported range.
+  assert.match(pkg.engines.dsh, /^>=0\.2\.2-rc\.3 <0\.3\.0$/, 'engines.dsh must declare the supported DSH range');
+  for (const name of [
+    '@deepseek-ai/dsh-client-ui-primitives',
+    '@deepseek-ai/dsh-client-ui-settings',
+    '@deepseek-ai/dsh-client-ui-slots',
+  ]) {
+    assert.equal(pkg.peerDependencies[name], pkg.engines.dsh, `${name} must declare the same range as engines.dsh`);
+  }
+
   const patch = await readFile(join(root, 'cordis.patch.yml'), 'utf8');
   assert.deepEqual([...patch.matchAll(/^\s+- id:\s*(.+)$/gm)].map((match) => match[1]), ['dsh-superpowers']);
   assert.match(patch, /^\s+name: dsh-superpowers-plugin$/m);

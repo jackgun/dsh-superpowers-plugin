@@ -5,7 +5,7 @@
 A lightweight native [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Cordis bundle that brings the pinned [obra/superpowers](https://github.com/obra/superpowers) skill collection to DSH.
 
 - Default target: the DSH `desktop` profile
-- Targets DSH `0.2.2-rc.3` and its published plugin API
+- Targets DSH `0.2.2-rc.5`; `engines.dsh` declares `>=0.2.2-rc.3 <0.3.0` so the plugin manager accepts any `0.2.2` release
 - Vendored Superpowers `v7.0.2` at commit `22f0b463e7a5e579904dd6211a520321035526f7`
 - Native lazy-loaded `ctx.skills` provider
 - Automatic `using-superpowers` bootstrap through `ctx.systemPrompt`
@@ -20,7 +20,7 @@ Only the bootstrap is injected into every model request. All other skills are lo
 Install the pinned GitHub release into the desktop profile:
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.3"
 ```
 
 Fully quit and restart the DeepSeek Harness desktop application, then start a new conversation.
@@ -62,10 +62,12 @@ The model should load `systematic-debugging`.
 Install the new explicit tag, then restart the desktop app:
 
 ```powershell
-dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.2"
+dsh plugin --profile desktop add "https://github.com/jackgun/dsh-superpowers-plugin.git#v0.2.3"
 ```
 
 Do not install an unpinned `main` branch if reproducible behavior matters.
+
+DSH checks plugin compatibility when it installs or activates a bundle: it reads the package's `engines.dsh` range (falling back to its `@deepseek-ai/dsh*` peer dependencies) and refuses the plugin when the running DSH version does not satisfy it. After updating DSH, install the newest plugin tag released for that DSH version. If DSH is newer than any published range, the plugin needs a wider `engines.dsh` range or the exact plugin/runtime pair can be exempted from the plugin manager as a last resort.
 
 ## Uninstall
 

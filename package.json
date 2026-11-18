@@ -1,6 +1,6 @@
 {
   "name": "dsh-superpowers-plugin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "DeepSeek Harness native bundle for the Superpowers skill collection",
   "repository": {
     "type": "git",
@@ -47,7 +47,8 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "dsh": ">=0.2.2-rc.3 <0.3.0"
   },
   "dsh": {
     "bundle": {
@@ -65,9 +66,9 @@
     "@deepseek-ai/schemastery": "3.19.0"
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-client-ui-primitives": "0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-settings": "0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-slots": "0.2.2-rc.3",
+    "@deepseek-ai/dsh-client-ui-primitives": ">=0.2.2-rc.3 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-settings": ">=0.2.2-rc.3 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-slots": ">=0.2.2-rc.3 <0.3.0",
     "react": "18.3.1"
   },
   "peerDependenciesMeta": {
